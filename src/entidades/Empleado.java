@@ -15,7 +15,6 @@ abstract public class Empleado {
 
         this.legajo = contador;
         contador++;
-
     }
 
     // Uso de polimorfismo

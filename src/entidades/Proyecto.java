@@ -4,6 +4,7 @@ package entidades;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 
 public class Proyecto {
     private final int id;
@@ -13,7 +14,7 @@ public class Proyecto {
     private LocalDate fechaInicio;
     private LocalDate fechaEstimadaFin;
     private LocalDate fechaFin;
-    private HashMap<Integer, Tarea> tareas = new HashMap<>();
+    private HashMap<String, Tarea> tareas = new HashMap<>();
     private HashSet<Empleado> historialEmpleados = new HashSet<>();
     private double costoFinal;
 
@@ -51,4 +52,21 @@ public class Proyecto {
     public Cliente getCliente() {
         return this.cliente;
     }
+
+    public String getEstado(){
+        return this.estado;
+    }
+
+    public String getDomicilio() {
+        return this.cliente.getDomicilio();
+    }
+
+    public Tarea getTarea(String titulo) {
+        return this.tareas.get(titulo);
+    }
+
+    public LinkedList<Tarea> getTareas() {
+        return new LinkedList<>(this.tareas.values());
+    }
+
 }

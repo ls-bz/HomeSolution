@@ -14,7 +14,16 @@ public class Tarea {
         this.estado = Estado.pendiente;
     }
 
-    public void asignarEmpleado(Empleado e){
+    public void asignarEmpleado(Empleado e) {
+        if (e == null) return;
+        if (this.empleadoResponsable == null) {
+            this.empleadoResponsable = e;
+        }
+    }
+
+    public void reasignarEmpleado(Empleado e) {
+        if (e == null) return;
+        this.empleadoResponsable = e;
     }
 
     public void finalizarTarea(){
@@ -28,4 +37,14 @@ public class Tarea {
     public double getCosto(){
         return 0.0;
     }
+
+    public String getEstado() {
+        return this.estado;
+    }
+
+    // Está asignada si y solo si tiene un empleado responsable
+    public boolean estaAsignada(){
+        return this.empleadoResponsable != null;
+    }
+
 }

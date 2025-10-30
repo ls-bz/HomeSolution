@@ -18,12 +18,6 @@ public class Main {
         homeSolution.registrarEmpleado("Julieta",15000);
         PanelManager panelManager=new PanelManager(homeSolution);
 
-//        for (Proyecto p : homeSolution.proyectos.values()) {
-//            Cliente c = p.getCliente();
-//
-//            System.out.println(c.getNombre());
-//        }
-
 
     }
 }

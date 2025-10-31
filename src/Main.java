@@ -1,7 +1,7 @@
-import entidades.*;
+import entidades.Empleado;
+import entidades.EmpleadoPlanta;
+import entidades.HomeSolution;
 import gui.PanelManager;
-
-import java.util.LinkedList;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -17,7 +17,5 @@ public class Main {
         homeSolution.registrarEmpleado("Luis",80000, "EXPERTO");
         homeSolution.registrarEmpleado("Julieta",15000);
         PanelManager panelManager=new PanelManager(homeSolution);
-
-
+        }
     }
-}

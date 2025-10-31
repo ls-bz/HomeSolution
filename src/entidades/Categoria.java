@@ -1,7 +1,6 @@
 package entidades;
-
 public enum Categoria {
-    INICIAL,
-    TECNICO,
-    EXPERTO
+        INICIAL,
+        TECNICO,
+        EXPERTO
 }

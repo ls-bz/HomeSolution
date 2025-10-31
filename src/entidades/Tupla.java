@@ -8,7 +8,12 @@ public class Tupla <T1,T2>{
         this.valor1 = valor1;
         this.valor2 = valor2;
     }
-
+    public T1 getPrimero(){
+        return valor1;
+    }
+    public T2 getSegundo(){
+        return valor2;
+    }   
     public T1 getValor1() {
         return valor1;
     }

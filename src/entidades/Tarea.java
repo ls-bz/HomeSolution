@@ -3,48 +3,61 @@ package entidades;
 public class Tarea {
     private String titulo;
     private String descripcion;
-    private double duracion;
-    private String estado;
+    private int duracion;
+    private EstadoTarea estado;
     private Empleado empleadoResponsable;
 
-    public Tarea(String titulo, String descripcion, double duracion) {
+    public Tarea(String titulo, String descripcion, int duracion, Empleado empleadoResponsable) {
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.duracion = duracion;
-        this.estado = Estado.pendiente;
+        this.estado = EstadoTarea.PENDIENTE;
+        this.empleadoResponsable = empleadoResponsable; 
     }
 
     public void asignarEmpleado(Empleado e) {
-        if (e == null) return;
-        if (this.empleadoResponsable == null) {
-            this.empleadoResponsable = e;
-        }
-    }
-
-    public void reasignarEmpleado(Empleado e) {
-        if (e == null) return;
         this.empleadoResponsable = e;
     }
 
-    public void finalizarTarea(){
-        this.estado = Estado.finalizado;
+    public void finalizarTarea() {
+        this.estado = EstadoTarea.TERMINADO;
     }
 
-    public void registrarRetraso(){
-
+    public void registrarRetraso() {
+        if (empleadoResponsable != null) {
+            this.empleadoResponsable.incrementarRetraso();
+        }
     }
 
-    public double getCosto(){
-        return 0.0;
+    public boolean estaFinalizado() {
+        return this.estado == EstadoTarea.TERMINADO;
     }
 
-    public String getEstado() {
-        return this.estado;
+    public double getCosto() {
+        if (empleadoResponsable == null) return 0.0;
+        return empleadoResponsable.calcularPago(duracion);
     }
 
-    // Está asignada si y solo si tiene un empleado responsable
-    public boolean estaAsignada(){
-        return this.empleadoResponsable != null;
+    public String getTitulo() {
+        return this.titulo;
     }
 
+    public EstadoTarea getEstado() {
+        return estado;
+    }
+
+    public Empleado getEmpleadoResponsable() {
+        return empleadoResponsable;
+    }
+    public Empleado getEmpleado() {
+        return empleadoResponsable;
+    }
+
+    public boolean tieneEmpleadoAsignado() {
+        return empleadoResponsable != null;
+    }
+
+    public String toString() {
+        return this.titulo;
+    }
 }

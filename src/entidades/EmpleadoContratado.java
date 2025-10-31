@@ -2,15 +2,13 @@ package entidades;
 
 public class EmpleadoContratado extends Empleado {
     private double valorHora;
-
-
-    public EmpleadoContratado(String nombre, double valorHora) {
-        super(nombre);
+    public EmpleadoContratado(String nombre,int legajo, double valorHora) {
+        super(nombre, legajo);
         this.valorHora = valorHora;
     }
-
-    @Override
-    public double calcularPago(double horas) {
-        return 0;
+    public double calcularPago(double horas){
+        return horas * this.valorHora;
     }
+
+    
 }

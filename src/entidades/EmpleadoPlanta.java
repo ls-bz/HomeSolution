@@ -3,17 +3,16 @@ package entidades;
 public class EmpleadoPlanta extends Empleado {
     private double valorDia;
     private Categoria categoria;
-    public EmpleadoPlanta(String nombre, int legajo, double valorDia, Categoria categoria) {
-        super(nombre, legajo);
+
+    EmpleadoPlanta(String nombre, double valorDia, Categoria cat) {
+        super(nombre);
         this.valorDia = valorDia;
-        this.categoria = categoria;
+        this.categoria = cat;
     }
-    public double calcularPago(double horas){
-        double base = (horas/8.0)*valorDia;
-        switch (categoria) {
-            case TECNICO -> base *= 1.2;
-            case EXPERTO -> base *= 1.5;
-        }
-        return base;
+
+    @Override
+    public double calcularPago(double horas) {
+        return 0;
     }
+
 }

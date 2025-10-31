@@ -7,7 +7,8 @@ import java.util.Map;
 import java.util.Set;
 
 public class Proyecto {
-    private int id;
+    private final int id;
+    private static int contador = 1;
     private String domicilio;
     private Cliente cliente;
     private LocalDate fechaInicio;
@@ -17,8 +18,9 @@ public class Proyecto {
     private Map<Integer, Tarea> tareas;
     private Set<Empleado> historialEmpleados;
     private double costoFinal;
-    public Proyecto(int id, Cliente cliente, String domicilio, LocalDate fechaInicio, LocalDate fechaEstimadaFin) {
-        this.id = id;
+    public Proyecto(Cliente cliente, String domicilio, LocalDate fechaInicio, LocalDate fechaEstimadaFin) {
+        this.id = contador;
+        contador++;
         this.cliente = cliente;
         this.domicilio = domicilio;
         this.fechaInicio = fechaInicio;

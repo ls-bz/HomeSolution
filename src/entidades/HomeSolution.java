@@ -7,14 +7,10 @@ public class HomeSolution implements IHomeSolution {
 
     private Map<Integer, Proyecto> proyectos;
     private Map<Integer, Empleado> empleados;
-    private int contadorProyectos;
-    private int contadorEmpleados;
 
     public HomeSolution() {
         this.proyectos = new HashMap<>();
         this.empleados = new HashMap<>();
-        this.contadorProyectos = 1;
-        this.contadorEmpleados = 1;
     }
 
     // ============================================================
@@ -26,7 +22,7 @@ public class HomeSolution implements IHomeSolution {
         if (nombre == null || nombre.isEmpty() || valor < 0)
             throw new IllegalArgumentException("Datos inválidos al registrar empleado.");
 
-        EmpleadoContratado e = new EmpleadoContratado(nombre, contadorEmpleados++, valor);
+        EmpleadoContratado e = new EmpleadoContratado(nombre, valor);
         empleados.put(e.getLegajo(), e);
     }
 
@@ -42,7 +38,7 @@ public class HomeSolution implements IHomeSolution {
             throw new IllegalArgumentException("Categoría inválida: " + categoria);
         }
 
-        EmpleadoPlanta e = new EmpleadoPlanta(nombre, contadorEmpleados++, valor, cat);
+        EmpleadoPlanta e = new EmpleadoPlanta(nombre, valor, cat);
         empleados.put(e.getLegajo(), e);
     }
 
@@ -65,7 +61,7 @@ public class HomeSolution implements IHomeSolution {
         LocalDate fechaInicio = LocalDate.parse(inicio);
         LocalDate fechaEstimadaFin = LocalDate.parse(fin);
 
-        Proyecto p = new Proyecto(contadorProyectos++, c, domicilio, fechaInicio, fechaEstimadaFin);
+        Proyecto p = new Proyecto(c, domicilio, fechaInicio, fechaEstimadaFin);
 
         for (int i = 0; i < titulos.length; i++) {
             Tarea t = new Tarea(titulos[i], descripcion[i], (int) dias[i], null);

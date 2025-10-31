@@ -3,11 +3,13 @@ package entidades;
 public abstract class Empleado {
     private String nombre;
     private int legajo;
+    private static int contador = 1;
     private boolean asignado;
     private int cantidadRetrasos;
-    public Empleado(String nombre, int legajo) {
+    public Empleado(String nombre) {
         this.nombre = nombre;
-        this.legajo = legajo;
+        this.legajo = contador;
+        contador++;
         this.asignado = false;
         this.cantidadRetrasos = 0;
     }

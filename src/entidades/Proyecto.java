@@ -67,7 +67,7 @@ public class Proyecto {
         return this.cliente;
     }
     public String getDomicilio(){
-        return this.cliente.getDomicilio();
+        return this.domicilio;
     }
     public EstadoProyecto getEstado(){
         return this.estado;

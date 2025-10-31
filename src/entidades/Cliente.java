@@ -1,7 +1,6 @@
 package entidades;
 
 public class Cliente {
-    private String domicilio;
     private String nombre;
     private String telefono;
     private String email;
@@ -18,8 +17,5 @@ public class Cliente {
     }
     public String getEmail() {
         return this.email;
-    }
-    public String getDomicilio(){
-        return this.domicilio;
     }
 }

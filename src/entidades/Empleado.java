@@ -6,6 +6,7 @@ public abstract class Empleado {
     private static int contador = 1;
     private boolean asignado;
     private int cantidadRetrasos;
+
     public Empleado(String nombre) {
         this.nombre = nombre;
         this.legajo = contador;
@@ -13,6 +14,9 @@ public abstract class Empleado {
         this.asignado = false;
         this.cantidadRetrasos = 0;
     }
+
+    public abstract double calcularPago(double horas);
+
     public void asignar(){
         this.asignado = true;
     }
@@ -22,21 +26,20 @@ public abstract class Empleado {
     public void incrementarRetraso(){
         this.cantidadRetrasos += 1;
     }
-    public boolean isAsignado(){
-        return this.asignado;
-    }
-    public int getCantidadRetrasos(){
-        return this.cantidadRetrasos;
-    }
     public boolean tuvoRetrasos(){
         return this.cantidadRetrasos > 0;
     }
-    public abstract double calcularPago(double horas);
+    public boolean isAsignado(){
+        return this.asignado;
+    }
     public int getLegajo(){
         return this.legajo;
     }
     public String getNombre(){
         return this.nombre;
+    }
+    public int getCantidadRetrasos(){
+        return this.cantidadRetrasos;
     }
 
 }

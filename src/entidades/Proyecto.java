@@ -48,10 +48,12 @@ public class Proyecto {
             historialEmpleados.add(e);
         }
     }
+
     public double calcularCostoFinal(){
         double total = 0.0;
         for(Tarea t : tareas.values()){
-            total+= t.getCosto();
+            double costo = t.getCosto();
+            total += t.getCosto();
         }
         this.costoFinal = total;
         return total;
@@ -62,6 +64,11 @@ public class Proyecto {
     public void finalizarProyecto(){
         this.estado = EstadoProyecto.FINALIZADO;
         this.fechaFin = LocalDate.now();
+
+        for (Tarea t : tareas.values()) {
+            t.finalizarTarea();
+        }
+
     }
     public Cliente getCliente(){
         return this.cliente;
@@ -81,6 +88,22 @@ public class Proyecto {
     public Set<Empleado> getHistorialEmpleados(){
         return this.historialEmpleados;
     }
+    public LocalDate getFechaInicio() {
+        return fechaInicio;
+    }
+    public LocalDate getFechaEstimadaFin() {
+        return fechaEstimadaFin;
+    }
+    public LocalDate getFechaFin() {
+        return fechaFin;
+    }
+    public double getCostoFinal() {
+        return costoFinal;
+    }
+    public boolean estaFinalizado() {
+        return this.estado == EstadoProyecto.FINALIZADO;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

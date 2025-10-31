@@ -57,9 +57,13 @@ public class HomeSolution implements IHomeSolution {
         if (titulos.length != descripcion.length || titulos.length != dias.length)
             throw new IllegalArgumentException("Listas de tareas inconsistentes.");
 
-        Cliente c = new Cliente(cliente[0], cliente[1], cliente[2]);
         LocalDate fechaInicio = LocalDate.parse(inicio);
         LocalDate fechaEstimadaFin = LocalDate.parse(fin);
+
+        if (fechaEstimadaFin.isBefore(fechaInicio))
+            throw new IllegalArgumentException("Las fechas ingresadas son inválidas");
+
+        Cliente c = new Cliente(cliente[0], cliente[1], cliente[2]);
 
         Proyecto p = new Proyecto(c, domicilio, fechaInicio, fechaEstimadaFin);
 
@@ -207,6 +211,13 @@ public class HomeSolution implements IHomeSolution {
     public void finalizarProyecto(Integer numero, String fin) throws IllegalArgumentException {
         Proyecto p = proyectos.get(numero);
         if (p == null) throw new IllegalArgumentException("Proyecto inexistente.");
+
+        LocalDate fechaFin = LocalDate.parse(fin);
+
+        if (fechaFin.isBefore(p.getFechaInicio())) throw new IllegalArgumentException("Ingrese una fecha válida.");
+        if (fechaFin.isBefore(p.getFechaEstimadaFin())) throw new IllegalArgumentException("Ingrese una fecha válida.");
+
+
         p.finalizarProyecto();
     }
 
@@ -286,9 +297,13 @@ public class HomeSolution implements IHomeSolution {
     public Object[] tareasProyectoNoAsignadas(Integer numero) {
         Proyecto p = proyectos.get(numero);
         if (p == null) return new Object[0];
+
+        if (p.estaFinalizado()) throw new IllegalArgumentException("El proyecto está finalizado, no hay tareas asignadas.");
+
         List<String> sinAsignar = new ArrayList<>();
         for (Tarea t : p.getTareas()) {
-            if (t.getEmpleadoResponsable() == null) sinAsignar.add(t.getTitulo());
+            if (!t.tieneEmpleadoAsignado()) sinAsignar.add(t.getTitulo());
+            //if (t.getEmpleadoResponsable() == null) sinAsignar.add(t.getTitulo());
         }
         return sinAsignar.toArray();
     }

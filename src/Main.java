@@ -3,6 +3,8 @@ import entidades.EmpleadoPlanta;
 import entidades.HomeSolution;
 import gui.PanelManager;
 
+import static org.junit.Assert.assertTrue;
+
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
@@ -16,6 +18,15 @@ public class Main {
         homeSolution.registrarEmpleado("Juan",15000);
         homeSolution.registrarEmpleado("Luis",80000, "EXPERTO");
         homeSolution.registrarEmpleado("Julieta",15000);
+
+        Integer numeroProyecto = (homeSolution.proyectosPendientes().get(0)).getValor1();
+        homeSolution.finalizarProyecto(numeroProyecto, "2025-12-10");
+        Object[] tareas = homeSolution.tareasProyectoNoAsignadas(numeroProyecto);
+
+        for (int i = 0; i < tareas.length; i++) {
+            System.out.print("x");
+        }
+
         PanelManager panelManager=new PanelManager(homeSolution);
         }
     }

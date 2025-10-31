@@ -3,7 +3,7 @@ package entidades;
 public class Tarea {
     private String titulo;
     private String descripcion;
-    private int duracion;
+    private double duracion;
     private EstadoTarea estado;
     private Empleado empleadoResponsable;
 
@@ -21,6 +21,10 @@ public class Tarea {
 
     public void finalizarTarea() {
         this.estado = EstadoTarea.TERMINADO;
+        if (empleadoResponsable != null) {
+            empleadoResponsable.liberar();
+            empleadoResponsable = null;
+        }
     }
 
     public void registrarRetraso() {
@@ -35,7 +39,8 @@ public class Tarea {
 
     public double getCosto() {
         if (empleadoResponsable == null) return 0.0;
-        return empleadoResponsable.calcularPago(duracion);
+        double horas = duracion * 8;
+        return empleadoResponsable.calcularPago(horas);
     }
 
     public String getTitulo() {

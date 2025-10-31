@@ -12,7 +12,16 @@ public class EmpleadoPlanta extends Empleado {
 
     @Override
     public double calcularPago(double horas) {
-        return 0;
+        double pago = this.valorDia;
+        if (!tuvoRetrasos()) pago *= 1.02;
+        return pago;
     }
 
+    public double getValorDia() {
+        return valorDia;
+    }
+
+    public Categoria getCategoria() {
+        return categoria;
+    }
 }

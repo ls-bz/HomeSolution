@@ -27,6 +27,7 @@ public class Main {
             System.out.print("x");
         }
 
+
         PanelManager panelManager=new PanelManager(homeSolution);
         }
     }

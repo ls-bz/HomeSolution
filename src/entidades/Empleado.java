@@ -19,6 +19,7 @@ public abstract class Empleado {
 
     public void asignar(){
         this.asignado = true;
+
     }
     public void liberar(){
         this.asignado = false;

@@ -221,9 +221,12 @@ public class HomeSolutionTest {
         Integer legajo=Integer.parseInt(emp[0].toString());
         homeSolution.reasignarEmpleadoEnProyecto(numeroProyecto,legajo,"Instalacion electrica");
         double costo=calculoCostoSinRetraso()-80000*2*1*1.02+20000*2;
+        System.out.println(homeSolution.costoProyecto(numeroProyecto));
         homeSolution.finalizarProyecto(numeroProyecto,"2025-12-05");
         assertEquals(costo, homeSolution.costoProyecto(numeroProyecto), 0.001);
     }
+
+
 
     private void asignarTareas(Integer numeroProyecto) throws Exception{
         homeSolution.asignarResponsableEnTarea(numeroProyecto,"Pintar");

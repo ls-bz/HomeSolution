@@ -83,19 +83,21 @@ public class HomeSolution implements IHomeSolution {
     public void asignarResponsableEnTarea(Integer numero, String titulo) throws Exception {
         Proyecto p = proyectos.get(numero);
         if (p == null) throw new Exception("Proyecto inexistente.");
+        if (p.estaFinalizado()) throw new Exception("El proyecto está finalizado");
 
         Tarea t = p.buscarTareaPorTitulo(titulo);
         if (t == null) throw new Exception("Tarea no encontrada.");
         if (t.estaFinalizado()) throw new Exception("Tarea ya finalizada.");
 
-        // Buscar el primer empleado disponible
         for (Empleado e : empleados.values()) {
             if (!e.isAsignado()) {
                 p.asignarEmpleadoATarea(titulo, e);
-                e.asignar();
+                p.verificarSiEstaPendiente();
                 return;
             }
         }
+
+
         throw new Exception("No hay empleados disponibles.");
     }
 
@@ -125,7 +127,8 @@ public class HomeSolution implements IHomeSolution {
         if (p == null) throw new IllegalArgumentException("Proyecto inexistente.");
         Tarea t = p.buscarTareaPorTitulo(titulo);
         if (t == null) throw new IllegalArgumentException("Tarea no encontrada.");
-        t.registrarRetraso();
+
+        t.registrarRetraso(cantidadDias);
     }
 
     @Override
@@ -157,11 +160,10 @@ public class HomeSolution implements IHomeSolution {
             
         if (nuevoEmpleado.isAsignado())
             throw new Exception("El empleado ya está asignado");
-            
+
         Empleado empleadoAnterior = t.getEmpleadoResponsable();
         empleadoAnterior.liberar();
         t.asignarEmpleado(nuevoEmpleado);
-        nuevoEmpleado.asignar();
     }
 
     @Override
@@ -214,9 +216,8 @@ public class HomeSolution implements IHomeSolution {
 
         LocalDate fechaFin = LocalDate.parse(fin);
 
-        if (fechaFin.isBefore(p.getFechaInicio())) throw new IllegalArgumentException("Ingrese una fecha válida.");
-        if (fechaFin.isBefore(p.getFechaEstimadaFin())) throw new IllegalArgumentException("Ingrese una fecha válida.");
-
+        if (fechaFin.isBefore(p.getFechaInicio()) || fechaFin.isBefore(p.getFechaEstimadaFin()))
+            throw new IllegalArgumentException("Ingrese una fecha válida.");
 
         p.finalizarProyecto();
     }
@@ -245,7 +246,7 @@ public class HomeSolution implements IHomeSolution {
     public List<Tupla<Integer, String>> proyectosPendientes() {
         List<Tupla<Integer, String>> lista = new ArrayList<>();
         for (Proyecto p : proyectos.values()) {
-            if (p.getEstado() == EstadoProyecto.EN_CURSO)
+            if (p.getEstado() == EstadoProyecto.PENDIENTE)
                 lista.add(new Tupla<>(p.getId(), p.getDomicilio()));
         }
         return lista;

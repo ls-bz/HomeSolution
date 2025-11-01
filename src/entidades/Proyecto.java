@@ -25,7 +25,7 @@ public class Proyecto {
         this.domicilio = domicilio;
         this.fechaInicio = fechaInicio;
         this.fechaEstimadaFin = fechaEstimadaFin;
-        this.estado = EstadoProyecto.EN_CURSO;
+        this.estado = EstadoProyecto.PENDIENTE;
         this.tareas = new HashMap<>();
         this.historialEmpleados = new HashSet<>();
         this.costoFinal = 0.0;
@@ -48,20 +48,14 @@ public class Proyecto {
             historialEmpleados.add(e);
         }
     }
-
-    public double calcularCostoFinal(){
-        double total = 0.0;
-        for(Tarea t : tareas.values()){
-            double costo = t.getCosto();
-            total += t.getCosto();
+    public void registrarRetraso(String titulo, double dias){
+        Tarea t = buscarTareaPorTitulo(titulo);
+        if (t != null) {
+            t.registrarRetraso(dias);
         }
-        this.costoFinal = total;
-        return total;
-    }
-    public void registrarRetraso(Tarea t){
-        t.registrarRetraso();
     }
     public void finalizarProyecto(){
+        calcularCostoFinal();
         this.estado = EstadoProyecto.FINALIZADO;
         this.fechaFin = LocalDate.now();
 
@@ -70,23 +64,43 @@ public class Proyecto {
         }
 
     }
-    public Cliente getCliente(){
-        return this.cliente;
+
+    public double calcularCostoBase() {
+        double total = 0.0;
+
+        for (Tarea t : tareas.values()) {
+            Empleado e = t.getEmpleadoResponsable();
+            if (e != null) total += t.getCosto();
+        }
+        return total;
+    }
+    public double calcularCostoFinal(){
+        if (this.estaFinalizado()) return costoFinal;
+
+        double total = calcularCostoBase();
+        boolean noHayRetraso = true;
+
+        for (Tarea t : tareas.values()) {
+            if (t.tieneRetraso()) {
+                noHayRetraso = false;
+                break;
+            }
+        }
+
+        total *= noHayRetraso ? 1.35 : 1.25 ;
+
+        this.costoFinal = total;
+        return total;
+    }
+
+    public int getId(){
+        return this.id;
     }
     public String getDomicilio(){
         return this.domicilio;
     }
-    public EstadoProyecto getEstado(){
-        return this.estado;
-    }
-    public int getId(){
-        return this.id;
-    }
-    public Collection<Tarea> getTareas(){
-        return this.tareas.values();
-    }
-    public Set<Empleado> getHistorialEmpleados(){
-        return this.historialEmpleados;
+    public Cliente getCliente(){
+        return this.cliente;
     }
     public LocalDate getFechaInicio() {
         return fechaInicio;
@@ -97,11 +111,42 @@ public class Proyecto {
     public LocalDate getFechaFin() {
         return fechaFin;
     }
+    public EstadoProyecto getEstado(){
+        return this.estado;
+    }
+    public Collection<Tarea> getTareas(){
+        return this.tareas.values();
+    }
+    public Set<Empleado> getHistorialEmpleados(){
+        return this.historialEmpleados;
+    }
     public double getCostoFinal() {
         return costoFinal;
     }
+    public Empleado getEmpleadoDeUnaTarea(String titulo) {
+        Tarea t = buscarTareaPorTitulo(titulo);
+        return t.getEmpleadoResponsable();
+    }
     public boolean estaFinalizado() {
         return this.estado == EstadoProyecto.FINALIZADO;
+    }
+    public void verificarSiEstaPendiente() {
+        if (estaFinalizado()) return;
+
+        boolean todasAsignadas = true;
+        for (Tarea t : tareas.values()) {
+            todasAsignadas = todasAsignadas && t.tieneEmpleadoAsignado();
+        }
+
+        if (todasAsignadas) setEstadoEnCurso();
+        else setEstadoPendiente();
+    }
+
+    private void setEstadoEnCurso() {
+        this.estado = EstadoProyecto.EN_CURSO;
+    }
+    public void setEstadoPendiente() {
+        this.estado = EstadoProyecto.PENDIENTE;
     }
 
     @Override
